@@ -44,7 +44,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 	        return;
 	    }
 
-        _characterController.Move(new Vector3(0, 0, Input.GetAxis("Vertical")) * _speed * Time.deltaTime);
-        transform.Rotate(new Vector3(0, Input.GetAxis("Horizontal"), 0) * _rotationSpeed * Time.deltaTime);
+        _characterController.SimpleMove(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * _speed * Time.deltaTime);
     }
 }
