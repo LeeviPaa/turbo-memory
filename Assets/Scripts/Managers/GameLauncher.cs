@@ -50,7 +50,9 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 			LogFeedback("Joining Room...");
 			// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
 			PhotonNetwork.JoinRandomRoom();
-		}else{
+		}
+        else
+        {
 			LogFeedback("Connecting...");
 			
 			// #Critical, we must first and foremost connect to Photon Online Server.
