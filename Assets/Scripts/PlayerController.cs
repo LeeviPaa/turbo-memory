@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if(mb is IDied died)
             {
                 died.OnDeath();
-            }
+            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
         }
     }
 

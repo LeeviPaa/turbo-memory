@@ -12,6 +12,8 @@ public class PlayerVisualizer : MonoBehaviour
     private PlayerController _player;
     [SerializeField]
     private List<RoleVisuals> _roleVisuals;
+    [SerializeField]
+    private Cinemachine.CinemachineVirtualCamera _closeUpCamera;
 
     private GameManager _gameManager;
 
@@ -19,6 +21,7 @@ public class PlayerVisualizer : MonoBehaviour
     {
         _gameManager = GameManager.Instance;
         _player.RoleChanged.AddListener(OnRoleChanged);
+        _closeUpCamera.enabled = _player.photonView.IsMine;
     }
 
     private bool ThisComponentIsMine()

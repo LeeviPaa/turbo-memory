@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
+[System.Serializable]
 public class E_PlayerRoleChanged : UnityEvent<Player, PlayerRole>{}
 
 public class GameManager : MonoBehaviourPunCallbacks
