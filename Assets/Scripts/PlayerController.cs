@@ -8,13 +8,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class E_RoleChanged : UnityEvent<PlayerRole>{}
-
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviourPunCallbacks
 {
     public PlayerRole Role => _role;
-    public E_RoleChanged RoleChanged => _roleChanged;
+    public E_PlayerRoleChanged RoleChanged => _roleChanged;
+    public PhotonView PhotonView => photonView;
 
     [SerializeField]
     private float _speed = 10;
@@ -25,7 +24,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private GameManager _gameManager;
     private PlayerRole _role;
     [SerializeField]
-    private E_RoleChanged _roleChanged = new E_RoleChanged();
+    private E_PlayerRoleChanged _roleChanged = new E_PlayerRoleChanged();
 
     public void Start()
     {
@@ -66,8 +65,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if(photonView.Owner == targetPlayer)
         {
             _role = value;
-            _roleChanged.Invoke(_role);
         }
+        
+        _roleChanged.Invoke(targetPlayer, _role);
     }
 
     private void Update()
