@@ -1,44 +1,66 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class SpikeScript : MonoBehaviour
+public class SpikeScript : MonoBehaviourPunCallbacks
 {
+    PhotonView photonView;
+    
     private GameObject _activator;
     
     private Animator _spikeTrapAnimator;
 
-    private bool _activated;
+    private bool _isActivated;
     
     private int _anmIsActive = Animator.StringToHash("IsActive");
     
     // Start is called before the first frame update
     void Start()
     {
+        photonView = PhotonView.Get(this);
         _spikeTrapAnimator = GetComponent<Animator>();
     }
 
     void Activate(GameObject player)
     {
-        _spikeTrapAnimator.SetBool(_anmIsActive, true);
-        
         _activator = player;
-        _activated = true;
+        
+        StartCoroutine(Activation());
     }
 
     void Deactivate()
     {
         _spikeTrapAnimator.SetBool(_anmIsActive, false);
         
-        _activated = false;
+        photonView.RPC("ChangeState", RpcTarget.All, false);
     }
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.CompareTag("Player") && _activated)
+        if (collider.gameObject.CompareTag("Player") && _isActivated)
         {
             collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
         }
+    }
+
+    IEnumerator Activation()
+    {
+        photonView.RPC("ChangeState", RpcTarget.All, true);
+        Debug.LogWarning("Trap activated!");
+
+        _spikeTrapAnimator.SetBool(_anmIsActive, true);
+
+        yield return new WaitForSeconds(1);
+        
+        photonView.RPC("ChangeState", RpcTarget.All, false);
+        Debug.LogWarning("Trap deactivated!");
+    }
+
+    [PunRPC]
+    void ChangeState(bool newState)
+    {
+        _isActivated = newState;
     }
 }
