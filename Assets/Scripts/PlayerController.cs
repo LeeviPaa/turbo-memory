@@ -32,19 +32,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         _gameManager = GameManager.Instance;
         _characterController = GetComponent<CharacterController>();
-        CameraWork cameraWork = GetComponent<CameraWork>();
-
-        if (cameraWork != null)
-        {
-            if (photonView.IsMine)
-            {
-                cameraWork.OnStartFollowing();
-            }
-        }
-        else
-        {
-            Debug.LogError("<Color=Red><b>Missing</b></Color> CameraWork Component on player Prefab.", this);
-        }
     }
 
 	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
