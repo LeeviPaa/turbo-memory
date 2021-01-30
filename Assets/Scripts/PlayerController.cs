@@ -62,6 +62,26 @@ public class PlayerController : MonoBehaviourPunCallbacks
 		}
 	}
 
+    public void KillPlayer(GameObject killer)
+    {
+        if(_role == PlayerRole.Human)
+            Die();
+    }
+
+    private void Die()
+    {
+        if(photonView.Owner == PhotonNetwork.LocalPlayer)
+            UpdatePlayerRole(photonView.Owner, PlayerRole.GoodGhost);
+
+        foreach (var mb in transform.GetComponents<MonoBehaviour>())
+        {
+            if(mb is IDied died)
+            {
+                died.OnDeath();
+            }
+        }
+    }
+
     private void UpdatePlayerRole(Player targetPlayer, PlayerRole value)
     {
         if(photonView.Owner == targetPlayer)
@@ -90,6 +110,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             _gameManager.BroadcastClientRoleChanged(PlayerRole.GoodGhost);
         else if(Input.GetKeyDown(KeyCode.J))
             _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
+        else if(Input.GetKeyDown(KeyCode.K))
+            KillPlayer(gameObject);
     }
 
     public void ChangeRole(int randomNumber)
