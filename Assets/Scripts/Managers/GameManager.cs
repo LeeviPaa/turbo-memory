@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+
+public class E_PlayerRoleChanged : UnityEvent<Player, PlayerRole>{}
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
 	public static GameManager Instance => FindObjectOfType<GameManager>(); 
 	public IReadOnlyDictionary<Player, PlayerRole> PlayerRoles => _playerRoles;
+	public E_PlayerRoleChanged PlayerRoleChanged => _playerRoleChanged;
 
     [SerializeField]
     private PlayerCameraFollower _playerCamera;
@@ -18,6 +22,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private PlayerController _localPlayerInstance;
 	private Dictionary<Player, PlayerRole> _playerRoles = new Dictionary<Player, PlayerRole>();
+	[SerializeField]
+	private E_PlayerRoleChanged _playerRoleChanged = new E_PlayerRoleChanged();
 
 	public void LeaveRoom()
 	{
@@ -105,6 +111,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 			_playerRoles.Add(player, role);
 		
 		Debug.Log($"{player.NickName} role is now {role.ToString()}");
+		_playerRoleChanged.Invoke(player, role);
 	}
 
 	/// <summary>
