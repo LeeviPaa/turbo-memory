@@ -89,4 +89,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         else if(Input.GetKeyDown(KeyCode.J))
             _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
     }
+
+    public void ChangeRole()
+    {
+        Debug.Log("Changed players role");
+        
+        if( photonView.IsMine == false && PhotonNetwork.IsConnected == true )
+        {
+            return;
+        }
+
+        _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
+    }
 }
