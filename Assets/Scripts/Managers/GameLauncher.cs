@@ -21,7 +21,7 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 	[SerializeField]
     private string _mainSceneName;
 	[SerializeField]
-	private TMPro.TMP_Text _nameField;
+	private TMPro.TMP_InputField _nameInputField;
 
 	/// <summary>
 	/// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon, 
@@ -45,13 +45,13 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 		_isConnecting = true;
 		// hide the Play button for visual consistency
 		_controlPanel.SetActive(false);
+		SetName();
         
 		// we check if we are connected or not, we join if we are , else we initiate the connection to the server.
 		if (PhotonNetwork.IsConnected)
 		{
 			LogFeedback("Joining Room...");
 			// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
-			PhotonNetwork.NickName = _nameField.text;
 			PhotonNetwork.JoinRandomRoom();
 		}
         else
@@ -62,6 +62,12 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 			PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = GameVersion;
 		}
+	}
+
+	public void SetName()
+    {
+		var nickName = _nameInputField.text;
+		PhotonNetwork.NickName = string.IsNullOrEmpty(nickName) ? "Guest" : nickName;
 	}
 
 	void LogFeedback(string message)
