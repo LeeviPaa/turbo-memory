@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private PlayerCameraFollower _playerCamera;
     [SerializeField]
     private PlayerController _playerPrefab;
+    [SerializeField]
+	private Transform _spawnPoint;
 
     private PlayerController _localPlayerInstance;
 	private Dictionary<Player, PlayerRole> _playerRoles = new Dictionary<Player, PlayerRole>();
@@ -91,7 +93,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 		    Debug.Log("We are Instantiating LocalPlayer from");
 
 			// we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-			var playerObject = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(0f,5f,0f), Quaternion.identity, 0);
+			var playerObject = PhotonNetwork.Instantiate(_playerPrefab.name, _spawnPoint.position, Quaternion.identity, 0);
             _localPlayerInstance = playerObject.GetComponent<PlayerController>();
 			BroadcastClientRoleChanged(PlayerRole.Human);
 		}
