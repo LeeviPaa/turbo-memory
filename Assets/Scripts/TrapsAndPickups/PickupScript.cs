@@ -1,20 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PickupScript : MonoBehaviour
 {
-    private int _value = 10;
+    public AnimationCurve _hoverCurve;
+
+    private float _hoverDuration = 1f;
+    private float _yPosition;
     
-    // Start is called before the first frame update
+    private int _pointValue = 10;
+
     void Start()
     {
-        
+        _yPosition = transform.position.y;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        
+        transform.position = new Vector3(transform.position.x, _hoverCurve.Evaluate
+                            (Time.time % _hoverCurve.length) + _yPosition, transform.position.z);
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Player"))
+        {
+            collider.gameObject.SendMessage("AddPoints", _pointValue, SendMessageOptions.DontRequireReceiver);
+            Debug.Log("Player got " + _pointValue + " points!");
+            Destroy(gameObject);
+        }
     }
 }

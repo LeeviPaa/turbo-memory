@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public PlayerRole Role => _role;
     public E_PlayerRoleChanged RoleChanged => _roleChanged;
     public PhotonView PhotonView => photonView;
+    public int Points => _points;
 
     [SerializeField]
     private float _speed = 10;
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private CharacterController _characterController;
     private GameManager _gameManager;
     private PlayerRole _role;
+    private int _points;
     [SerializeField]
     private E_PlayerRoleChanged _roleChanged = new E_PlayerRoleChanged();
 
@@ -107,5 +109,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {  
             _gameManager.BroadcastClientRoleChanged(PlayerRole.GoodGhost);
         }
+    }
+
+    public void AddPoints(int pointValue)
+    {
+        _points += pointValue;
+        Debug.Log("Player currently has: " + _points);
     }
 }

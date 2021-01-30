@@ -9,6 +9,8 @@ public class HUDMaster : MonoBehaviourPunCallbacks
     public Room GetCurrentRoom() => _currentRoom == null ? PhotonNetwork.CurrentRoom : _currentRoom;
 
     public UnityEvent<Room> OnRoomUpdated = new UnityEvent<Room>();
+    public UnityEvent<Player> OnPlayerJoined = new UnityEvent<Player>();
+    public UnityEvent<Player> OnPlayerDisconnected = new UnityEvent<Player>();
 
     public void Start()
     {
@@ -19,12 +21,14 @@ public class HUDMaster : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
         OnRoomUpdated.Invoke(GetCurrentRoom());
+        OnPlayerJoined.Invoke(newPlayer);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
         OnRoomUpdated.Invoke(GetCurrentRoom());
+        OnPlayerDisconnected.Invoke(otherPlayer);
     }
 
     public override void OnJoinedRoom()
