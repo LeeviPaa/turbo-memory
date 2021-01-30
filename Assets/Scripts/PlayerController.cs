@@ -72,6 +72,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void KillPlayer(GameObject killer)
     {
+        Debug.LogError("DIEDD");
+        
         if(_role == PlayerRole.Human)
             Die();
     }

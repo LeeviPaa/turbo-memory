@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class SpikeScript : MonoBehaviourPunCallbacks
 {
+    [SerializeField]
+    private Vector3 _boxCenter;
+    [SerializeField]
+    private float _boxSize;
+
     private GameObject _activator;
     
     private Animator _spikeTrapAnimator;
@@ -46,6 +51,7 @@ public class SpikeScript : MonoBehaviourPunCallbacks
 
     void OnTriggerEnter(Collider collider)
     {
+        Debug.LogError("AKLSDJLAJ");
         if (collider.gameObject.CompareTag("Player") && _isActivated)
         {
             collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
@@ -54,16 +60,36 @@ public class SpikeScript : MonoBehaviourPunCallbacks
 
     IEnumerator Activation()
     {
+        _isActivated = true;
         _spikeTrapAnimator.SetBool(_anmIsActive, true);
 
+        CheckCollisions();
         yield return new WaitForSeconds(1);
+        CheckCollisions();
         
         _spikeTrapAnimator.SetBool(_anmIsActive, false);
+        _isActivated = false;
     }
 
-    [PunRPC]
-    void ChangeState(bool newState)
+    private void CheckCollisions()
     {
-        _isActivated = newState;
+        foreach(var collider in Physics.OverlapBox(transform.position + _boxCenter, Vector3.one * _boxSize / 2))
+        {
+            if(!collider.gameObject.CompareTag("Player"))
+                continue;
+                
+            PlayerController player = collider.gameObject.GetComponent<PlayerController>();
+            if (player != null && _isActivated)
+            {
+                player.KillPlayer(_activator);
+                return;
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position + _boxCenter, Vector3.one * _boxSize);
     }
 }
