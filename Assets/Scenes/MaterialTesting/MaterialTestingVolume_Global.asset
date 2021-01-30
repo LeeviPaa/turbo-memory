@@ -25,7 +25,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.478
+    m_Value: 0.527
     min: 0
     max: 1
   smoothness:
@@ -36,6 +36,45 @@ MonoBehaviour:
   rounded:
     m_OverrideState: 1
     m_Value: 0
+--- !u!114 &-8788727748575044959
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 0.7327909, y: 0.74804294, z: 1, w: -0.16632016}
+  midtones:
+    m_OverrideState: 1
+    m_Value: {x: 0.9096038, y: 0.9081568, z: 1, w: 0}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  shadowsStart:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+  shadowsEnd:
+    m_OverrideState: 1
+    m_Value: 0.3
+    min: 0
+  highlightsStart:
+    m_OverrideState: 1
+    m_Value: 0.55
+    min: 0
+  highlightsEnd:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
 --- !u!114 &-5991387260826706931
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -72,6 +111,7 @@ MonoBehaviour:
   - {fileID: -9042049385026065542}
   - {fileID: 8069487304389033187}
   - {fileID: -5991387260826706931}
+  - {fileID: -8788727748575044959}
 --- !u!114 &771542997197855417
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -88,7 +128,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   postExposure:
     m_OverrideState: 1
-    m_Value: 2.5
+    m_Value: 2.28
   contrast:
     m_OverrideState: 1
     m_Value: -0
@@ -184,7 +224,7 @@ MonoBehaviour:
     m_Value: 2
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.124
     min: 0
     max: 1
   clamp:
@@ -208,10 +248,10 @@ MonoBehaviour:
   m_AdvancedMode: 0
   type:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 6
   intensity:
     m_OverrideState: 1
-    m_Value: 0.638
+    m_Value: 0.66
     min: 0
     max: 1
   response:
