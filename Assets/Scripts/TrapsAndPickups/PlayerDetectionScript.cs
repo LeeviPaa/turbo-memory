@@ -7,17 +7,17 @@ using Random = System.Random;
 
 public class PlayerDetectionScript : MonoBehaviour
 {
+    public AnimationCurve lerpCurve;
+    
     private float _lerpDuration = 1f;
 
     private int _rand;
 
     private bool _isActivated = true;
 
-    public AnimationCurve lerpCurve;
-
-    void OnTriggerEnter(Collider collision)
+    void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Player") && _isActivated)
+        if (collider.gameObject.CompareTag("Player") && _isActivated)
         {
             Vector3 startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             Vector3 endPos = new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z);
@@ -26,13 +26,13 @@ public class PlayerDetectionScript : MonoBehaviour
 
             _rand = UnityEngine.Random.Range(1, 100);
             
-            collision.gameObject.SendMessage("ChangeRole", _rand, SendMessageOptions.DontRequireReceiver);
+            collider.gameObject.SendMessage("ChangeRole", _rand, SendMessageOptions.DontRequireReceiver);
         }
     }
 
-    void OnTriggerExit(Collider collision)
+    void OnTriggerExit(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Player") && _isActivated)
+        if (collider.gameObject.CompareTag("Player") && _isActivated)
         {
             // Wait a second and then return up
         }
