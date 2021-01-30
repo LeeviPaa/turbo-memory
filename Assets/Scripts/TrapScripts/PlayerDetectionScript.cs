@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerDetectionScript : MonoBehaviour
@@ -10,7 +11,6 @@ public class PlayerDetectionScript : MonoBehaviour
     private bool _isActivated = true;
 
     public AnimationCurve lerpCurve;
-    
 
     void OnTriggerEnter(Collider collision)
     {
@@ -19,9 +19,11 @@ public class PlayerDetectionScript : MonoBehaviour
             Debug.Log("Uh oh!");
 
             Vector3 startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            Vector3 endPos = new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z);
+            Vector3 endPos = new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z);
             
             StartCoroutine(Move(startPos, endPos));
+
+            collision.gameObject.SendMessage("ChangeRole", SendMessageOptions.DontRequireReceiver);
         }
     }
 
@@ -47,6 +49,4 @@ public class PlayerDetectionScript : MonoBehaviour
 
         transform.position = endPosition;
     }
-    
-    
 }
