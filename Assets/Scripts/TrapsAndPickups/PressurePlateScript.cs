@@ -5,6 +5,8 @@ using UnityEngine;
 public class PressurePlateScript : MonoBehaviour
 {
     public GameObject[] TrapList;
+
+    private GameObject _buttonPresser;
     
     private Animator _pressurePlateAnimator;
 
@@ -25,9 +27,15 @@ public class PressurePlateScript : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player") && !_activated)
         {
+            _buttonPresser = collider.gameObject;
+            
             _activated = true;
             _pressurePlateAnimator.SetBool(_anmIsActive, true);
-            TrapList[0].gameObject.SendMessage("Activate", SendMessageOptions.DontRequireReceiver);
+
+            foreach (GameObject trap in TrapList)
+            {
+                trap.gameObject.SendMessage("Activate", collider.gameObject, SendMessageOptions.DontRequireReceiver);
+            }
         }
     }
 
@@ -35,9 +43,15 @@ public class PressurePlateScript : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player") && _activated)
         {
+            _buttonPresser = null;
+            
             _activated = false;
             _pressurePlateAnimator.SetBool(_anmIsActive, false);
-            TrapList[0].gameObject.SendMessage("Deactivate", SendMessageOptions.DontRequireReceiver);
+            
+            foreach (GameObject trap in TrapList)
+            {
+                trap.gameObject.SendMessage("Deactivate", SendMessageOptions.DontRequireReceiver);
+            }
         }
     }
 }
