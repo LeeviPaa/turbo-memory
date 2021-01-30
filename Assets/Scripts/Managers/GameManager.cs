@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
 	public static GameManager Instance => FindObjectOfType<GameManager>(); 
 	public IReadOnlyDictionary<Player, PlayerRole> PlayerRoles => _playerRoles;
+	public IReadOnlyDictionary<Player, int> PlayerScores => _playerScore;
 	public E_PlayerRoleChanged PlayerRoleChanged => _playerRoleChanged;
+	public UnityEvent<Player, int> PlayerScoreChanged => _playerScoreChanged;
 
     [SerializeField]
     private PlayerCameraFollower _playerCamera;
@@ -27,6 +29,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 	private Dictionary<Player, PlayerRole> _playerRoles = new Dictionary<Player, PlayerRole>();
 	[SerializeField]
 	private E_PlayerRoleChanged _playerRoleChanged = new E_PlayerRoleChanged();
+	private Dictionary<Player, int> _playerScore = new Dictionary<Player, int>();
+	[SerializeField]
+	private UnityEvent<Player, int> _playerScoreChanged = new UnityEvent<Player, int>();
 
 	public void LeaveRoom()
 	{
@@ -50,15 +55,20 @@ public class GameManager : MonoBehaviourPunCallbacks
 	{
 
 	}
-	
+
+	public const string c_PlayerRole = "Player_Role";
+	public const string c_PlayerScore = "Player_Score";
 	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
 	{
 		foreach(var kvp in changedProps)
 		{
 			switch(kvp.Key)
 			{
-				case "Player_Role":
+				case c_PlayerRole:
 					UpdatePlayerRoleLocal(targetPlayer, (PlayerRole)kvp.Value);
+					break;
+				case c_PlayerScore:
+					UpdatePlayerScoreLocal(targetPlayer, (int)kvp.Value);
 					break;
 				default:
 					break;
@@ -69,12 +79,18 @@ public class GameManager : MonoBehaviourPunCallbacks
 	public void BroadcastClientRoleChanged(PlayerRole role)
 	{
 		var properties = new Hashtable();
-		properties.Add("Player_Role", role);
-
+		properties.Add(c_PlayerRole, role);
 		PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
 	}
 
-    private void Start()
+	public void BroadcastPlayerScoreChanged(int score)
+    {
+		var properties = new Hashtable();
+		properties.Add(c_PlayerScore, score);
+		PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+    }
+
+	private void Start()
     {
         SpawnPlayer();
     }
@@ -116,6 +132,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 		Debug.Log($"{player.NickName} role is now {role.ToString()}");
 		_playerRoleChanged.Invoke(player, role);
 	}
+
+	private void UpdatePlayerScoreLocal(Player player, int score)
+    {
+		if (_playerScore.ContainsKey(player))
+			_playerScore[player] = score;
+		else
+			_playerScore.Add(player, score);
+    }
 
 	/// <summary>
 	/// MonoBehaviour method called on GameObject by Unity on every frame.

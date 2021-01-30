@@ -26,7 +26,15 @@ public class UserListItem : Element
         }
         else
         {
-            _role.text = string.Empty;
+            _role.text = PlayerRole.Human.ToString();
+        }
+        if (GameManager.Instance.PlayerScores.ContainsKey(data.Player))
+        {
+            _score.text = GameManager.Instance.PlayerScores[data.Player].ToString();
+        }
+        else
+        {
+            _score.text = "0";
         }
         _userName.text = data.Player.NickName;
     }
@@ -34,15 +42,22 @@ public class UserListItem : Element
     protected override void BindData()
     {
         GameManager.Instance.PlayerRoleChanged.AddListener(OnPlayerRoleChanged);
+        GameManager.Instance.PlayerScoreChanged.AddListener(OnPlayerScoreChanged);
     }
 
     protected override void UnbindData()
     {
         GameManager.Instance.PlayerRoleChanged.RemoveListener(OnPlayerRoleChanged);
+        GameManager.Instance.PlayerScoreChanged.RemoveListener(OnPlayerScoreChanged);
     }
 
     public void OnPlayerRoleChanged(Player player, PlayerRole role)
     {
-        UpdateVisuals();
+        _role.text = role.ToString();
+    }
+
+    public void OnPlayerScoreChanged(Player player, int score)
+    {
+        _score.text = score.ToString();
     }
 }
