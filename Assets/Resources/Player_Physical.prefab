@@ -449,7 +449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 10
-  _rotationSpeed: 300
+  _rotationSpeed: 150
   _jumpSpeed: 35
   _jumpTime: 0.3
   _jumpSpeedCurve:

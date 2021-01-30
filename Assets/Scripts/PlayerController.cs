@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         _gameManager = GameManager.Instance;
         _characterController = GetComponent<CharacterController>();
         _groundedGraceTime = 0;
+
+        Cursor.visible = false;
     }
 
 	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -108,11 +110,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
         UpdateGroundedGrace();
 
         Vector3 movement = transform.forward * Input.GetAxis("Vertical") * _speed;
+        movement += transform.right * Input.GetAxis("Horizontal") * _speed;
         Vector3 gravity = -Vector3.up * _gravitySpeed * (_jumping ? 0 : 1);
         _moveVelocity = movement + _jumpVelocity + gravity;
 
         _characterController.Move(_moveVelocity * Time.deltaTime);
-        transform.Rotate(new Vector3(0, Input.GetAxis("Horizontal"), 0) * _rotationSpeed * Time.deltaTime);
+        
+        MouseRotate();
 
         if(Input.GetButtonDown("Jump") && !_jumping && _groundedGrace)
             StartCoroutine(Jump());
@@ -125,6 +129,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
             _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
         else if(Input.GetKeyDown(KeyCode.K))
             KillPlayer(gameObject);
+        else if(Input.GetKeyDown(KeyCode.Tab))
+            Cursor.visible = !Cursor.visible;
+    }
+
+    private void KeyboardRotate()
+    {
+        transform.Rotate(new Vector3(0, Input.GetAxis("Horizontal"), 0) * _rotationSpeed * Time.deltaTime);
+    }
+
+    private void MouseRotate()
+    {
+        if(Cursor.visible)
+            return;
+
+        transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X"), 0) * _rotationSpeed * Time.deltaTime);
     }
 
     private void UpdateGroundedGrace()
