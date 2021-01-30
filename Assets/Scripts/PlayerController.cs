@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void Die()
     {
         if(photonView.Owner == PhotonNetwork.LocalPlayer)
-            UpdatePlayerRole(photonView.Owner, PlayerRole.GoodGhost);
+            _gameManager.BroadcastClientRoleChanged(PlayerRole.GoodGhost);
 
         foreach (var mb in transform.GetComponents<MonoBehaviour>())
         {
