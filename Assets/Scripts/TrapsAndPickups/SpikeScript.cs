@@ -49,15 +49,6 @@ public class SpikeScript : MonoBehaviourPunCallbacks
         _isActivated = false;
     }
 
-    void OnTriggerEnter(Collider collider)
-    {
-        Debug.LogError("AKLSDJLAJ");
-        if (collider.gameObject.CompareTag("Player") && _isActivated)
-        {
-            collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
-        }
-    }
-
     IEnumerator Activation()
     {
         _isActivated = true;
@@ -73,11 +64,12 @@ public class SpikeScript : MonoBehaviourPunCallbacks
 
     private void CheckCollisions()
     {
+        // changed OnTriggerEnter to a more manual method since OnTriggerEnter is pretty unreliable it seems
         foreach(var collider in Physics.OverlapBox(transform.position + _boxCenter, Vector3.one * _boxSize / 2))
         {
             if(!collider.gameObject.CompareTag("Player"))
                 continue;
-                
+
             PlayerController player = collider.gameObject.GetComponent<PlayerController>();
             if (player != null && _isActivated)
             {
@@ -89,6 +81,7 @@ public class SpikeScript : MonoBehaviourPunCallbacks
 
     private void OnDrawGizmos()
     {
+        // draw red gizmo that shows the killbox
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position + _boxCenter, Vector3.one * _boxSize);
     }
