@@ -46,7 +46,7 @@ public class SpikeScript : MonoBehaviourPunCallbacks
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.CompareTag("Player") && _isActivated && photonView.IsMine)
+        if (collider.gameObject.CompareTag("Player") && _isActivated)
         {
             collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
         }
