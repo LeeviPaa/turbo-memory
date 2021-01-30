@@ -1,27 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
+using Random = System.Random;
 
 public class PlayerDetectionScript : MonoBehaviour
 {
     private float _lerpDuration = 1f;
 
+    private int _rand;
+
     private bool _isActivated = true;
 
     public AnimationCurve lerpCurve;
-    
 
     void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player") && _isActivated)
         {
-            Debug.Log("Uh oh!");
-
             Vector3 startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            Vector3 endPos = new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z);
+            Vector3 endPos = new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z);
             
             StartCoroutine(Move(startPos, endPos));
+
+            _rand = UnityEngine.Random.Range(1, 100);
+            
+            collision.gameObject.SendMessage("ChangeRole", _rand, SendMessageOptions.DontRequireReceiver);
         }
     }
 
@@ -29,7 +34,7 @@ public class PlayerDetectionScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && _isActivated)
         {
-            // yes
+            // Wait a second and then return up
         }
     }
 
@@ -47,6 +52,4 @@ public class PlayerDetectionScript : MonoBehaviour
 
         transform.position = endPosition;
     }
-    
-    
 }

@@ -51,6 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb77c9adf5003b943bfbfbe7be6436c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _role: {fileID: 1586487246587277962}
+  _userName: {fileID: 6366179878892058462}
 --- !u!114 &4389210892301659452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,7 +107,7 @@ RectTransform:
   m_GameObject: {fileID: 2938841280947086970}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2411119, y: 1.2411119, z: 1.2411119}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8259795971773104151}
   m_RootOrder: 0
@@ -206,7 +208,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 2, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -259,7 +261,7 @@ RectTransform:
   m_GameObject: {fileID: 3360443409347323230}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2411119, y: 1.2411119, z: 1.2411119}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8259795971773104151}
   m_RootOrder: 1
@@ -360,7 +362,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 2, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
