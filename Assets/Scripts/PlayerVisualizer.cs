@@ -58,6 +58,22 @@ public class PlayerVisualizer : MonoBehaviour
             {
                 SetVisualsForRole(newRole.ToString());
             }
+
+            return;
+        }
+
+        if(TargetPlayerIsMe(targetPlayer) && !ThisComponentIsTargets(targetPlayer))
+        {
+            PlayerRole clientRole = _gameManager.PlayerRoles[PhotonNetwork.LocalPlayer];
+
+            if(clientRole == PlayerRole.Human && newRole != PlayerRole.Human)
+                SetVisualsForRole("Invisible");
+            else
+            {
+                SetVisualsForRole(newRole.ToString());
+            }
+
+            return;
         }
 
         //when I turn into a ghost, other ghosts should turn visible
