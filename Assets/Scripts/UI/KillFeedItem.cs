@@ -8,6 +8,15 @@ namespace UI
 {
     public class KillFeedItem : Element
     {
+        [System.Serializable]
+        public struct KillFeedIcon
+        {
+            public KillType Type;
+            public Sprite Icon;
+        }
+
+        [SerializeField]
+        private List<KillFeedIcon> _icons;
         [SerializeField]
         private TMP_Text _user;
         [SerializeField]
@@ -37,6 +46,16 @@ namespace UI
             }
             _target.text = data.Target.NickName;
             _anim?.Play();
+        }
+
+        public Sprite GetKillTypeSprite(KillType type)
+        {
+            foreach (var icon in _icons)
+            {
+                if (icon.Type == type) return icon.Icon;
+            }
+            if (type != KillType.Default) return GetKillTypeSprite(KillType.Default);
+            return null;
         }
 
         protected override void BindData()

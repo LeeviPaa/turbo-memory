@@ -6,6 +6,7 @@ using UnityEngine;
 public enum KillType
 {
     Default = 0,
+    SpikeTrap = 1,
     None = 100
 }
 
