@@ -23,39 +23,34 @@ public class SpikeScript : MonoBehaviourPunCallbacks
         _spikeTrapAnimator = GetComponent<Animator>();
     }
 
-    void Activate(GameObject player)
+    void Activate()
     {
-        _activator = player;
-        
         StartCoroutine(Activation());
     }
 
     void Deactivate()
     {
         _spikeTrapAnimator.SetBool(_anmIsActive, false);
-        
-        photonView.RPC("ChangeState", RpcTarget.All, false);
+
+        _isActivated = false;
     }
 
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Player") && _isActivated)
         {
-            collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
+            // collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
+            photonView.RPC("KillPlayer", RpcTarget.All);
         }
     }
 
     IEnumerator Activation()
     {
-        photonView.RPC("ChangeState", RpcTarget.All, true);
-        Debug.LogWarning("Trap activated!");
-
         _spikeTrapAnimator.SetBool(_anmIsActive, true);
 
         yield return new WaitForSeconds(1);
         
-        photonView.RPC("ChangeState", RpcTarget.All, false);
-        Debug.LogWarning("Trap deactivated!");
+        _spikeTrapAnimator.SetBool(_anmIsActive, false);
     }
 
     [PunRPC]
