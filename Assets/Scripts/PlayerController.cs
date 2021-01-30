@@ -1,12 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Pun.Demo.PunBasics;
+using Photon.Realtime;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviourPunCallbacks
 {
+    public PlayerRole Role => _role;
+
     [SerializeField]
     private float _speed = 10;
     [SerializeField]
@@ -14,6 +19,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private CharacterController _characterController;
     private GameManager _gameManager;
+    private PlayerRole _role;
 
     public void Start()
     {
@@ -32,6 +38,27 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             Debug.LogError("<Color=Red><b>Missing</b></Color> CameraWork Component on player Prefab.", this);
         }
+    }
+
+	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+	{
+		foreach(var kvp in changedProps)
+		{
+			switch(kvp.Key)
+			{
+				case "Player_Role":
+					UpdatePlayerRole(targetPlayer, (PlayerRole)kvp.Value);
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+    private void UpdatePlayerRole(Player targetPlayer, PlayerRole value)
+    {
+        if(photonView.Owner == targetPlayer)
+            _role = value;
     }
 
     private void Update()
