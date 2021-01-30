@@ -22,7 +22,7 @@ LightingSettings:
   m_Padding: 2
   m_TextureCompression: 1
   m_AO: 1
-  m_AOMaxDistance: 14
+  m_AOMaxDistance: 12
   m_CompAOExponent: 1
   m_CompAOExponentDirect: 1
   m_ExtractAO: 0
