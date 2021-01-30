@@ -165,7 +165,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void AddPoints(int pointValue)
     {
         _points += pointValue;
-        Debug.Log("Player currently has: " + _points);
     }
 
     private IEnumerator Jump()

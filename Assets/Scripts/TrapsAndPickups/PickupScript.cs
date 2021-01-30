@@ -27,7 +27,7 @@ public class PickupScript : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             collider.gameObject.SendMessage("AddPoints", _pointValue, SendMessageOptions.DontRequireReceiver);
-            Debug.Log("Player got " + _pointValue + " points!");
+            
             Destroy(gameObject);
         }
     }
