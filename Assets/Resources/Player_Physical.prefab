@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 11400010}
   - component: {fileID: 5484970}
   - component: {fileID: 7300999154705974292}
+  - component: {fileID: 8924279233950034802}
   m_Layer: 7
   m_Name: Player_Physical
   m_TagString: Player
@@ -516,6 +517,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollPrefab: {fileID: 4766049794158855415, guid: 67cae89c69b4af84ba5cc3a381d746ff, type: 3}
+--- !u!114 &8924279233950034802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb512b06d5e4b4f40a1fe61882515ad4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: -2303788687124680194}
+  _playerLayer: 7
+  _ghostLayer: 8
 --- !u!1 &100032
 GameObject:
   m_ObjectHideFlags: 0
