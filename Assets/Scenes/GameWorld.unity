@@ -57852,6 +57852,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2039422756}
   m_Mesh: {fileID: 4965473341201682454, guid: c00a0b9721088f04bb72ec86f661f08f, type: 3}
+--- !u!1 &2040877406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3362872670191800966, guid: f43e19f9a23cb6c4dbc31bea4b06d282, type: 3}
+  m_PrefabInstance: {fileID: 1916984563}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2045149752
 GameObject:
   m_ObjectHideFlags: 0
@@ -60018,6 +60023,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trap_PressurePlate
       objectReference: {fileID: 0}
+    - target: {fileID: 6493315697912154343, guid: 4275bf496dcd5254cab1acd9899e65e7, type: 3}
+      propertyPath: TrapList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493315697912154343, guid: 4275bf496dcd5254cab1acd9899e65e7, type: 3}
+      propertyPath: TrapList.Array.data[0]
+      value: 
+      objectReference: {fileID: 2040877406}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4275bf496dcd5254cab1acd9899e65e7, type: 3}
 --- !u!1 &2130276667
