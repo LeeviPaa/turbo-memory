@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 	private Transform _spawnPoint;
 
     private PlayerController _localPlayerInstance;
+	public PlayerController LocalPlayerInstance => _localPlayerInstance;
 	private Dictionary<Player, PlayerRole> _playerRoles = new Dictionary<Player, PlayerRole>();
 	[SerializeField]
 	private E_PlayerRoleChanged _playerRoleChanged = new E_PlayerRoleChanged();

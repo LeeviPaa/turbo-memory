@@ -394,6 +394,7 @@ GameObject:
   - component: {fileID: 8924279233950034802}
   - component: {fileID: 6037608655558549782}
   - component: {fileID: 1223481576466017443}
+  - component: {fileID: 8003797529933734734}
   m_Layer: 7
   m_Name: Player_Physical
   m_TagString: Player
@@ -688,6 +689,20 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8488b7960c0ae3f42b1aa5c624723fdf, type: 3}
   - {fileID: 8300000, guid: 6f2ea943db399e143b850b7aeabd60d5, type: 3}
   - {fileID: 8300000, guid: f48ec86b1f95be340a1febddf9ed64e6, type: 3}
+--- !u!136 &8003797529933734734
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100030}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &100032
 GameObject:
   m_ObjectHideFlags: 0
