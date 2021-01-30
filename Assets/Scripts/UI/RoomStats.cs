@@ -1,18 +1,25 @@
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomStats : MonoBehaviour
+namespace UI
 {
-    // Start is called before the first frame update
-    void Start()
+    public class RoomStats : MonoBehaviour
     {
-        
-    }
+        [SerializeField]
+        private ElementList _users;
+        private List<IElementData> data = new List<IElementData>(4);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void OnUsersUpdate(Room room)
+        {
+            if (room == null) return;
+            data.Clear();
+            foreach (Player player in room.Players.Values)
+            {
+                data.Add(new PlayerData{ Player = player });
+            }
+            _users.UpdateList(data);
+        }
     }
 }

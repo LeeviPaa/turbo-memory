@@ -5,12 +5,15 @@ using UnityEngine.Events;
 
 public class HUDMaster : MonoBehaviourPunCallbacks
 {
-    private Photon.Realtime.Room _currentRoom;
-    public Photon.Realtime.Room GetCurrentRoom() => _currentRoom == null ? PhotonNetwork.CurrentRoom : _currentRoom;
+    private Room _currentRoom;
+    public Room GetCurrentRoom() => _currentRoom == null ? PhotonNetwork.CurrentRoom : _currentRoom;
 
-    public UnityEvent<Photon.Realtime.Room> OnRoomUpdated = new UnityEvent<Photon.Realtime.Room>();
-    public UnityEvent<Player> OnPlayerJoined = new UnityEvent<Player>();
-    public UnityEvent<Player> OnPlayerLeft = new UnityEvent<Player>();
+    public UnityEvent<Room> OnRoomUpdated = new UnityEvent<Room>();
+
+    public void Start()
+    {
+        OnRoomUpdated.Invoke(GetCurrentRoom());
+    }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
@@ -24,9 +27,10 @@ public class HUDMaster : MonoBehaviourPunCallbacks
         OnRoomUpdated.Invoke(GetCurrentRoom());
     }
 
-    public override void OnJoinedLobby()
+    public override void OnJoinedRoom()
     {
-        base.OnJoinedLobby();
+        base.OnJoinedRoom();
         OnRoomUpdated.Invoke(GetCurrentRoom());
     }
+
 }
