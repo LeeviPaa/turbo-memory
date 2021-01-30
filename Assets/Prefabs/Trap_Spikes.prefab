@@ -269,7 +269,6 @@ GameObject:
   - component: {fileID: 3362872670191800964}
   - component: {fileID: 7024693405300841559}
   - component: {fileID: 1262970405421139391}
-  - component: {fileID: 2742842251567255525}
   - component: {fileID: 8149709614293512585}
   m_Layer: 0
   m_Name: Trap_Spikes
@@ -388,19 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccff3ff1b2eb7054cb09d8c73895c686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &2742842251567255525
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3362872670191800966}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.6820292, y: 1.4850479, z: 1.665072}
-  m_Center: {x: 0.071543455, y: 0.35205072, z: 0.031267405}
+  _boxCenter: {x: 0, y: 1, z: 0}
+  _boxSize: 2.5
 --- !u!114 &8149709614293512585
 MonoBehaviour:
   m_ObjectHideFlags: 0
