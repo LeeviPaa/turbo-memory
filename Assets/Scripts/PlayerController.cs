@@ -90,15 +90,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
             _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
     }
 
-    public void ChangeRole()
+    public void ChangeRole(int randomNumber)
     {
-        Debug.Log("Changed players role");
-        
         if( photonView.IsMine == false && PhotonNetwork.IsConnected == true )
         {
             return;
         }
+        
+        Debug.Log("Rolled a " + randomNumber);
 
-        _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
+        if (randomNumber > 50)
+        {
+            _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
+        }
+        else
+        {  
+            _gameManager.BroadcastClientRoleChanged(PlayerRole.GoodGhost);
+        }
     }
 }
