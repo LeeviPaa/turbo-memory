@@ -59,14 +59,23 @@ public class PlayerVisualizer : MonoBehaviour
                 SetVisualsForRole(newRole.ToString());
             }
         }
+
+        //when I turn into a ghost, other ghosts should turn visible
     }
 
     private void SetVisualsForRole(string role)
     {
+        RoleVisuals targetRole = null;
+
         foreach (RoleVisuals roleVisuals in _roleVisuals)
         {
-            roleVisuals.ToggleVisuals(roleVisuals.Role == role);
+            if(roleVisuals.Role == role)
+                targetRole = roleVisuals;
+
+            roleVisuals.ToggleVisuals(false);
         }
+
+        targetRole.ToggleVisuals(true);
     }
 }
 

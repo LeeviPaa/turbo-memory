@@ -3289,10 +3289,15 @@ MonoBehaviour:
   _roleVisuals:
   - Visuals:
     - {fileID: 100052}
-    Role: 0
+    Role: Human
   - Visuals:
     - {fileID: 8806799908489351926}
-    Role: 1
+    Role: GoodGhost
+  - Visuals:
+    - {fileID: 8806799908489351926}
+    Role: EvilGhost
+  - Visuals: []
+    Role: Invisible
 --- !u!1 &7005571471909215305
 GameObject:
   m_ObjectHideFlags: 0
