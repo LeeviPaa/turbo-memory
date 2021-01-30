@@ -20,6 +20,8 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 	private byte _maxPlayersPerRoom = 4;
 	[SerializeField]
     private string _mainSceneName;
+	[SerializeField]
+	private TMPro.TMP_Text _nameField;
 
 	/// <summary>
 	/// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon, 
@@ -49,6 +51,7 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 		{
 			LogFeedback("Joining Room...");
 			// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
+			PhotonNetwork.NickName = _nameField.text;
 			PhotonNetwork.JoinRandomRoom();
 		}
         else
