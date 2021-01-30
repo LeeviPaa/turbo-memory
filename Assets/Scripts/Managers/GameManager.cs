@@ -83,6 +83,20 @@ public class GameManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
 	}
 
+	public int GetPlayerScore(Player player)
+    {
+		if (PlayerScores.ContainsKey(player)) return PlayerScores[player];
+		return 0;
+    }
+
+	public void AddScore(int delta)
+    {
+		var currentScore = GetPlayerScore(PhotonNetwork.LocalPlayer);
+		//Players should not get negative score!
+		currentScore = Mathf.Max(currentScore + delta, 0);
+		BroadcastPlayerScoreChanged(currentScore);
+    }
+
 	public void BroadcastPlayerScoreChanged(int score)
     {
 		var properties = new Hashtable();
