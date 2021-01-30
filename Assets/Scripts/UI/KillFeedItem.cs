@@ -38,13 +38,16 @@ namespace UI
             var data = (KillFeedData)_data;
             if (data == null) return;
             var hasUser = data.User != null;
-            var IsLocalContext = hasUser && data.User.IsLocal || data.Target.IsLocal;
+            //var IsLocalContext = hasUser && data.User.IsLocal || data.Target.IsLocal;
             _user.gameObject.GameObjectSetActive(hasUser);
             if (hasUser)
             {
                 _user.text = data.User.NickName;
             }
-            _target.text = data.Target.NickName;
+            if (data.Target != null)
+            {
+                _target.text = data.Target.NickName;
+            }
             _anim?.Play();
         }
 
