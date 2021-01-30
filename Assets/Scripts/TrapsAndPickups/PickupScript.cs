@@ -6,11 +6,10 @@ using UnityEngine;
 public class PickupScript : MonoBehaviour
 {
     public AnimationCurve _hoverCurve;
-
-    private float _hoverDuration = 1f;
+    
     private float _yPosition;
     
-    private int _pointValue = 10;
+    private int _pointValue = 100;
 
     void Start()
     {

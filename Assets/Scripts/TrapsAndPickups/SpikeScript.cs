@@ -40,6 +40,7 @@ public class SpikeScript : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player") && _activated)
         {
+            Debug.Log(_activator.name + " killed " + collider.gameObject.name);
             collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
         }
     }
