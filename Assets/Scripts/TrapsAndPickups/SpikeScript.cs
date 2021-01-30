@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpikeScript : MonoBehaviour
 {
+    private GameObject _activator;
+    
     private Animator _spikeTrapAnimator;
 
     private bool _activated;
@@ -16,13 +19,28 @@ public class SpikeScript : MonoBehaviour
         _spikeTrapAnimator = GetComponent<Animator>();
     }
 
-    void Activate()
+    void Activate(GameObject player)
     {
         _spikeTrapAnimator.SetBool(_anmIsActive, true);
+        
+        _activator = player;
+        _activated = true;
+
+        Debug.Log(_activator.name + " activated their trap card!");
     }
 
     void Deactivate()
     {
         _spikeTrapAnimator.SetBool(_anmIsActive, false);
+        
+        _activated = false;
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Player") && _activated)
+        {
+            collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
+        }
     }
 }
