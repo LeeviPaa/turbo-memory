@@ -14,6 +14,9 @@ public class UserListItem : Element
     [SerializeField]
     private TMP_Text _userName;
 
+    [SerializeField]
+    private TMP_Text _score;
+
     public override void UpdateVisuals()
     {
         var data = (PlayerData)_data;

@@ -27,6 +27,10 @@ public class HUDMaster : MonoBehaviourPunCallbacks
             var player = GetCurrentRoom().GetPlayer(1);
             ShowKillFeedMessage(player, KillType.Default, player);
         }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleScoreboardVisible();
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -59,6 +63,17 @@ public class HUDMaster : MonoBehaviourPunCallbacks
     public void ShowKillFeedMessage(Player user, KillType type, Player target)
     {
         _killFeed.ShowFeedMessage(new KillFeedData() { User = user, Type = type, Target = target, Timestamp = Time.unscaledTime });
+    }
+
+    #endregion
+
+    #region Scoreboard
+
+    [SerializeField]
+    private GameObject _scorePage;
+    public void ToggleScoreboardVisible()
+    {
+        _scorePage.GameObjectSetActive(!_scorePage.activeSelf);
     }
 
     #endregion
