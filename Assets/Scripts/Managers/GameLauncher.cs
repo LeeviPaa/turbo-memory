@@ -34,6 +34,7 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 	{
 		// #Critical
 		// this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
+		_nameInputField.text = PlayerPrefs.GetString("Nickname");
 		PhotonNetwork.AutomaticallySyncScene = true;
 	}
 
@@ -67,7 +68,9 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 	public void SetName()
     {
 		var nickName = _nameInputField.text;
-		PhotonNetwork.NickName = string.IsNullOrEmpty(nickName) ? "Guest" : nickName;
+		nickName = string.IsNullOrEmpty(nickName) ? "Guest" : nickName;
+		PhotonNetwork.NickName = nickName;
+		PlayerPrefs.SetString("Nickname", nickName);
 	}
 
 	void LogFeedback(string message)
