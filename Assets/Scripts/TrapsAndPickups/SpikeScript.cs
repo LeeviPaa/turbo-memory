@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class SpikeScript : MonoBehaviourPunCallbacks
 {
-    PhotonView photonView;
-    
     private GameObject _activator;
     
     private Animator _spikeTrapAnimator;
@@ -19,16 +17,27 @@ public class SpikeScript : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        photonView = PhotonView.Get(this);
         _spikeTrapAnimator = GetComponent<Animator>();
     }
 
     void Activate()
     {
+        photonView.RPC("ActivateSync", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void ActivateSync()
+    {
         StartCoroutine(Activation());
     }
 
     void Deactivate()
+    {
+        photonView.RPC("DeactivateSync", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void DeactivateSync()
     {
         _spikeTrapAnimator.SetBool(_anmIsActive, false);
 
@@ -37,10 +46,9 @@ public class SpikeScript : MonoBehaviourPunCallbacks
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.CompareTag("Player") && _isActivated)
+        if (collider.gameObject.CompareTag("Player") && _isActivated && photonView.IsMine)
         {
-            // collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
-            photonView.RPC("KillPlayer", RpcTarget.All);
+            collider.gameObject.SendMessage("KillPlayer", _activator, SendMessageOptions.DontRequireReceiver);
         }
     }
 
