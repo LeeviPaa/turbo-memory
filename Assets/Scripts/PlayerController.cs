@@ -20,10 +20,26 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private float _speed = 10;
     [SerializeField]
     private float _rotationSpeed = 10;
+    [SerializeField]
+    private float _jumpSpeed = 10;
+    [SerializeField]
+    private float _jumpTime = 0.5f;
+    [SerializeField]
+    private AnimationCurve _jumpSpeedCurve;
+    [SerializeField]
+    private float _groundedGraceDelay = 0.1f;
+    [SerializeField]
+    private float _gravitySpeed = 98.1f;
 
     private CharacterController _characterController;
     private GameManager _gameManager;
     private PlayerRole _role;
+    private bool _jumping = false;
+    [SerializeField]
+    private bool _groundedGrace;
+    private float _groundedGraceTime = 0;
+    private Vector3 _jumpVelocity;
+    private Vector3 _moveVelocity;
     private int _points;
     [SerializeField]
     private E_PlayerRoleChanged _roleChanged = new E_PlayerRoleChanged();
@@ -32,6 +48,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         _gameManager = GameManager.Instance;
         _characterController = GetComponent<CharacterController>();
+        _groundedGraceTime = 0;
     }
 
 	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -86,10 +103,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
 	        return;
 	    }
 
-        Vector3 movement = transform.forward * Input.GetAxis("Vertical");
+        UpdateGroundedGrace();
 
-        _characterController.SimpleMove(movement * _speed * Time.deltaTime);
+        Vector3 movement = transform.forward * Input.GetAxis("Vertical") * _speed;
+        Vector3 gravity = -Vector3.up * _gravitySpeed * (_jumping ? 0 : 1);
+        _moveVelocity = movement + _jumpVelocity + gravity;
+
+        _characterController.Move(_moveVelocity * Time.deltaTime);
         transform.Rotate(new Vector3(0, Input.GetAxis("Horizontal"), 0) * _rotationSpeed * Time.deltaTime);
+
+        if(Input.GetButtonDown("Jump") && !_jumping && _groundedGrace)
+            StartCoroutine(Jump());
 
         if(Input.GetKeyDown(KeyCode.H))
             _gameManager.BroadcastClientRoleChanged(PlayerRole.Human);
@@ -99,6 +123,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
             _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
         else if(Input.GetKeyDown(KeyCode.K))
             KillPlayer(gameObject);
+    }
+
+    private void UpdateGroundedGrace()
+    {
+        if(!_characterController.isGrounded && _groundedGrace)
+        {
+            _groundedGraceTime += Time.deltaTime;
+
+            if(_groundedGraceTime >= _groundedGraceDelay)
+            {
+                _groundedGrace = false;
+                _groundedGraceTime = 0;
+            }
+        }
+        else if (_characterController.isGrounded)
+        {
+            _groundedGrace = true;
+        }
     }
 
     public void ChangeRole(int randomNumber)
@@ -124,5 +166,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         _points += pointValue;
         Debug.Log("Player currently has: " + _points);
+    }
+
+    private IEnumerator Jump()
+    {
+        if(_jumping)
+            yield break;
+        
+        _jumping = true;
+        float time = 0;
+        while(time < _jumpTime)
+        {
+            time += Time.deltaTime;
+            _jumpVelocity = _jumpSpeedCurve.Evaluate(time) * transform.up * _jumpSpeed;
+            yield return null;
+        }
+        _jumpVelocity = Vector3.zero;
+        _jumping = false;
     }
 }
