@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private Animator _animator;
+    [SerializeField]
+    private float _speedModifier = 1;
+    [SerializeField]
+    private PlayerController _player;
+    
+    private CharacterController _character;
+
+    private void Start()
     {
-        
+        _character = _player.gameObject.GetComponent<CharacterController>();
+        _player.Jumped.AddListener(Jumped);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        _animator.SetFloat("Speed", _character.velocity.magnitude * _speedModifier);
+    }
+
+    private void Jumped()
+    {
+        _animator.SetTrigger("Jump");
     }
 }

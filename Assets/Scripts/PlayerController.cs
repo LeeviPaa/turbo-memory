@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 {
     public PlayerRole Role => _role;
     public E_PlayerRoleChanged RoleChanged => _roleChanged;
+    public UnityEvent Jumped => _jumped;
     public PhotonView PhotonView => photonView;
     public int Points => _points;
 
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private int _points;
     [SerializeField]
     private E_PlayerRoleChanged _roleChanged = new E_PlayerRoleChanged();
+    private UnityEvent _jumped = new UnityEvent();
 
     public void Start()
     {
@@ -172,6 +174,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if(_jumping)
             yield break;
         
+        _jumped.Invoke();
         _jumping = true;
         float time = 0;
         while(time < _jumpTime)
