@@ -10,8 +10,11 @@ public class PlayerAnimationController : MonoBehaviour
     private float _speedModifier = 1;
     [SerializeField]
     private PlayerController _player;
+    [SerializeField]
+    private float _animationSmooth = 10;
     
     private CharacterController _character;
+    private float _velocityValue = 0;
 
     private void Start()
     {
@@ -21,7 +24,8 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void Update()
     {
-        _animator.SetFloat("Speed", _character.velocity.magnitude * _speedModifier);
+        _velocityValue = Mathf.Lerp(_velocityValue, _character.velocity.magnitude, _animationSmooth * Time.deltaTime);
+        _animator.SetFloat("Speed", _velocityValue * _speedModifier);
     }
 
     private void Jumped()

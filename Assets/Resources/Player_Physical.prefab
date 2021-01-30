@@ -2587,15 +2587,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: Speed
-  - Type: 1
-    SynchronizeType: 1
-    Name: Direction
   - Type: 4
     SynchronizeType: 1
     Name: Jump
-  - Type: 4
-    SynchronizeType: 0
-    Name: Hi
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -2633,8 +2627,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 3438990821658263558}
-  _speedModifier: 1
+  _speedModifier: 0.1
   _player: {fileID: -2303788687124680194}
+  _animationSmooth: 8
 --- !u!1 &1271307410260311872
 GameObject:
   m_ObjectHideFlags: 0
@@ -3833,15 +3828,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: Speed
-  - Type: 1
-    SynchronizeType: 1
-    Name: Direction
   - Type: 4
     SynchronizeType: 1
     Name: Jump
-  - Type: 4
-    SynchronizeType: 0
-    Name: Hi
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -3878,9 +3867,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cbf62d7547ccf9478722704bccf2078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 3438990821658263558}
-  _speedModifier: 1
+  _animator: {fileID: 2182685616881434813}
+  _speedModifier: 0.1
   _player: {fileID: -2303788687124680194}
+  _animationSmooth: 8
 --- !u!1 &8117206454664686122
 GameObject:
   m_ObjectHideFlags: 0
