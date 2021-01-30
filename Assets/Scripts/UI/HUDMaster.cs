@@ -2,9 +2,12 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.Events;
+using UI;
 
 public class HUDMaster : MonoBehaviourPunCallbacks
 {
+    #region Rooms
+
     private Room _currentRoom;
     public Room GetCurrentRoom() => _currentRoom == null ? PhotonNetwork.CurrentRoom : _currentRoom;
 
@@ -15,6 +18,15 @@ public class HUDMaster : MonoBehaviourPunCallbacks
     public void Start()
     {
         OnRoomUpdated.Invoke(GetCurrentRoom());
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            var player = GetCurrentRoom().GetPlayer(1);
+            ShowKillFeedMessage(player, KillType.Default, player);
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -37,4 +49,17 @@ public class HUDMaster : MonoBehaviourPunCallbacks
         OnRoomUpdated.Invoke(GetCurrentRoom());
     }
 
+    #endregion
+
+    #region KillFeed
+
+    [SerializeField]
+    private MessageFeed _killFeed;
+    public MessageFeed KillFeed => _killFeed;
+    public void ShowKillFeedMessage(Player user, KillType type, Player target)
+    {
+        _killFeed.ShowFeedMessage(new KillFeedData() { User = user, Type = type, Target = target, Timestamp = Time.unscaledTime });
+    }
+
+    #endregion
 }
