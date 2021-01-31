@@ -13,6 +13,8 @@ public class Interactable : MonoBehaviourPunCallbacks
     private Transform _interactionRoot;
     [SerializeField]
     private Camera _camera;
+    [SerializeField]
+    private bool _disableAfterTrigger = false;
 
     public UnityEvent<double, Player> OnInteracted = new UnityEvent<double, Player>();
     public UnityEvent<bool> OnCanInteractChanged = new UnityEvent<bool>();
@@ -87,7 +89,9 @@ public class Interactable : MonoBehaviourPunCallbacks
         var user = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
         if (user == null) return;
         OnInteracted.Invoke(timeStamp, user);
-        SetCanInteract(false);
+
+        if(_disableAfterTrigger)
+            SetCanInteract(false);
     }
 
     /// <summary>
