@@ -140,7 +140,7 @@ public class HUDMaster : MonoBehaviourPunCallbacks
         _state = state;
         if (state == HUDState.Victory)
         {
-            OnEnterVictoryScreen.Invoke(_currentRoom);
+            OnEnterVictoryScreen.Invoke(GetCurrentRoom());
         }
     }
 
