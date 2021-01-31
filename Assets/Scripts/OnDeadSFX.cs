@@ -27,4 +27,9 @@ public class OnDeadSFX : MonoBehaviourPunCallbacks, IDied
         int clipIndex = Random.Range(0, _deathClips.Count);
         _audioSource.PlayOneShot(_deathClips[clipIndex]);
     }
+
+    public void OnRespawn()
+    {
+
+    }
 }

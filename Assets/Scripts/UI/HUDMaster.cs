@@ -20,6 +20,17 @@ public class HUDMaster : MonoBehaviourPunCallbacks
         OnRoomUpdated.Invoke(GetCurrentRoom());
     }
 
+    public void Awake()
+    {
+        GameManager.Instance.PlayerRoleChanged.AddListener(OnPlayerRoleChanged);
+    }
+
+    public void OnPlayerRoleChanged(Player player, PlayerRole role)
+    {
+        if (!player.IsLocal) return;
+        SetState(role == PlayerRole.Human ? HUDState.Default : HUDState.Death);
+    }
+
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
@@ -30,6 +41,10 @@ public class HUDMaster : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             ToggleScoreboardVisible();
+        }
+        if (_state == HUDState.Death)
+        {
+            _respawnText.text = $"Respawn in { Mathf.CeilToInt(Mathf.Max(0, _timeOfDeath + _deathDuration - Time.time))} seconds.";
         }
     }
 
@@ -84,6 +99,39 @@ public class HUDMaster : MonoBehaviourPunCallbacks
     public void ToggleScoreboardVisible()
     {
         _scorePage.GameObjectSetActive(!_scorePage.activeSelf);
+    }
+
+    #endregion
+
+    #region PlayerDeath
+
+    [SerializeField]
+    private GameObject _baseHUD;
+    [SerializeField]
+    private GameObject _deathScreen;
+
+    private float _timeOfDeath;
+    private float _deathDuration;
+    [SerializeField]
+    private TMPro.TMP_Text _respawnText;
+    public void SetDeathProperties(float timeOfDeath, float deathDuration)
+    {
+        _timeOfDeath = timeOfDeath;
+        _deathDuration = deathDuration;
+    }
+
+    public enum HUDState
+    {
+        Default = 0,
+        Death = 1
+    }
+    private HUDState _state;
+
+    public void SetState(HUDState state)
+    {
+        _baseHUD.GameObjectSetActive(state == HUDState.Default);
+        _deathScreen.GameObjectSetActive(state == HUDState.Death);
+        _state = state;
     }
 
     #endregion

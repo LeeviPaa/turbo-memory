@@ -6,6 +6,8 @@ public class OnDeadSpawnRagdoll : MonoBehaviourPunCallbacks, IDied
     [SerializeField]
     private GameObject _ragdollPrefab;
 
+    private GameObject _currentRagdoll;
+
     private bool _dead = false;
 
     public void OnDeath()
@@ -14,6 +16,15 @@ public class OnDeadSpawnRagdoll : MonoBehaviourPunCallbacks, IDied
             return;
 
         _dead = true;
-        var playerObject = PhotonNetwork.Instantiate(_ragdollPrefab.name, transform.position, transform.rotation, 0);
+        _currentRagdoll = PhotonNetwork.Instantiate(_ragdollPrefab.name, transform.position, transform.rotation, 0);
+    }
+
+    public void OnRespawn()
+    {
+        _dead = false;
+        if (_currentRagdoll != null)
+        {
+            PhotonNetwork.Destroy(_currentRagdoll);
+        }
     }
 }

@@ -491,6 +491,7 @@ MonoBehaviour:
   _roleChanged:
     m_PersistentCalls:
       m_Calls: []
+  _deathDuration: 15
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 0

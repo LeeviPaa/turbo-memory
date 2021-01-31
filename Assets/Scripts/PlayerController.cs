@@ -44,6 +44,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private E_PlayerRoleChanged _roleChanged = new E_PlayerRoleChanged();
     private UnityEvent _jumped = new UnityEvent();
 
+
+    [SerializeField]
+    private float _deathDuration = 5f;
+    private float _timeOfDeath;
+
+
     public void Start()
     {
         _gameManager = GameManager.Instance;
@@ -80,23 +86,52 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Die()
     {
-        if(photonView.Owner == PhotonNetwork.LocalPlayer)
+        if (photonView.Owner == PhotonNetwork.LocalPlayer)
+        {
+            _timeOfDeath = Time.time;
+            _gameManager.HUD.SetDeathProperties(_timeOfDeath, _deathDuration);  
             _gameManager.BroadcastClientRoleChanged(PlayerRole.GoodGhost);
+        }
+        HandleDeath();
+    }
 
+    private void Respawn(Player targetPlayer)
+    {
+        _gameManager.BroadcastClientRoleChanged(PlayerRole.Human);
+        HandleRespawn();
+    }
+
+    public void HandleDeath()
+    {
         foreach (var mb in transform.GetComponents<MonoBehaviour>())
         {
-            if(mb is IDied died)
+            if (mb is IDied died)
             {
                 died.OnDeath();
-            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+            }
+        }
+    }
+
+    public void HandleRespawn()
+    {
+        foreach (var mb in transform.GetComponents<MonoBehaviour>())
+        {
+            if (mb is IDied died)
+            {
+                died.OnRespawn();
+            }
         }
     }
 
     private void UpdatePlayerRole(Player targetPlayer, PlayerRole value)
     {
-        if(photonView.Owner == targetPlayer)
+        if(photonView.Owner == targetPlayer && _role != value)
         {
             _role = value;
+            if (_role == PlayerRole.Human)
+            {
+                HandleRespawn();
+            }
         }
         
         _roleChanged.Invoke(targetPlayer, _role);
@@ -133,6 +168,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
             KillPlayer(null, KillType.Default);
         else if(Input.GetKeyDown(KeyCode.Tab))
             Cursor.visible = !Cursor.visible;
+        if (_role != PlayerRole.Human && _timeOfDeath + _deathDuration <= Time.time)
+        {
+            Respawn(photonView.Controller);
+        }
     }
 
     private void KeyboardRotate()
