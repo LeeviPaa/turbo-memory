@@ -15,6 +15,8 @@ public class Interactable : MonoBehaviourPunCallbacks
     private Camera _camera;
     [SerializeField]
     private bool _disableAfterTrigger = false;
+    [SerializeField]
+    private bool _deadOnly = false;
 
     public UnityEvent<double, Player> OnInteracted = new UnityEvent<double, Player>();
     public UnityEvent<bool> OnCanInteractChanged = new UnityEvent<bool>();
@@ -62,7 +64,9 @@ public class Interactable : MonoBehaviourPunCallbacks
         if (!GetPlayerControllerInCollision(collision, out var controller)) return;
         if (controller.PhotonView.Owner.IsLocal)
         {
-            _interactionVisual.SetActive(CanInteract);
+            var hasRole = GameManager.Instance.PlayerRoles.ContainsKey(controller.photonView.Controller);
+            var canInteract = _deadOnly && hasRole ? CanInteract && controller.Role != PlayerRole.Human : CanInteract;
+            _interactionVisual.SetActive(canInteract);
             _isInInteractionRange = true;
         }
     }
@@ -85,8 +89,10 @@ public class Interactable : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ExecuteInteraction(double timeStamp, int actorNumber)
     {
-        if (!CanInteract) return;
         var user = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
+        var hasRole = GameManager.Instance.PlayerRoles.ContainsKey(user);
+        var canInteract = _deadOnly && hasRole ? CanInteract && GameManager.Instance.PlayerRoles[user] != PlayerRole.Human : CanInteract;
+        if (!canInteract) return;
         if (user == null) return;
         OnInteracted.Invoke(timeStamp, user);
 
