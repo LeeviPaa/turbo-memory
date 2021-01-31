@@ -25,7 +25,7 @@ public class HUDMaster : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.B))
         {
             var player = GetCurrentRoom().GetPlayer(1);
-            ShowKillFeedMessage(player, KillType.Default, player);
+            BroadCastKillFeedMessage(player, KillType.Default, player);
         }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -60,9 +60,19 @@ public class HUDMaster : MonoBehaviourPunCallbacks
     [SerializeField]
     private MessageFeed _killFeed;
     public MessageFeed KillFeed => _killFeed;
-    public void ShowKillFeedMessage(Player user, KillType type, Player target)
+
+    public void BroadCastKillFeedMessage(Player user, KillType type, Player target)
     {
-        _killFeed.ShowFeedMessage(new KillFeedData() { User = user, Type = type, Target = target, Timestamp = Time.unscaledTime });
+        photonView.RPC("ShowKillFeedMesage", RpcTarget.All, user.UserId, type, target.UserId);
+    }
+
+    [PunRPC]
+    public void ShowKillFeedMessage(int user, KillType type, int target)
+    {
+        var playerUser = GetCurrentRoom().GetPlayer(user);
+        var playerTarget = GetCurrentRoom().GetPlayer(target);
+        if (playerTarget == null) return;
+        _killFeed.ShowFeedMessage(new KillFeedData() { User = playerUser, Type = type, Target = playerTarget, Timestamp = Time.unscaledTime });
     }
 
     #endregion

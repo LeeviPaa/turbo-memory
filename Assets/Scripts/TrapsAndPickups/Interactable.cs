@@ -87,7 +87,7 @@ public class Interactable : MonoBehaviourPunCallbacks
         var user = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
         if (user == null) return;
         OnInteracted.Invoke(timeStamp, user);
-        CanInteract = false;
+        SetCanInteract(false);
     }
 
     /// <summary>

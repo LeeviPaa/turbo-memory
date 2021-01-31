@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class SpikeScript : MonoBehaviourPunCallbacks
@@ -18,6 +19,8 @@ public class SpikeScript : MonoBehaviourPunCallbacks
     private bool _isActivated;
     
     private int _anmIsActive = Animator.StringToHash("IsActive");
+
+    private Player _lastActivatedPlayer;
     
     // Start is called before the first frame update
     void Start()
@@ -25,14 +28,15 @@ public class SpikeScript : MonoBehaviourPunCallbacks
         _spikeTrapAnimator = GetComponent<Animator>();
     }
 
-    void Activate()
+    void Activate(Player user)
     {
-        photonView.RPC("ActivateSync", RpcTarget.All);
+        photonView.RPC("ActivateSync", RpcTarget.All, user.ActorNumber);
     }
 
     [PunRPC]
-    void ActivateSync()
+    void ActivateSync(int user)
     {
+        _lastActivatedPlayer = PhotonNetwork.CurrentRoom.GetPlayer(user);
         StartCoroutine(Activation());
     }
 
@@ -73,7 +77,7 @@ public class SpikeScript : MonoBehaviourPunCallbacks
             PlayerController player = collider.gameObject.GetComponent<PlayerController>();
             if (player != null && _isActivated)
             {
-                player.KillPlayer(_activator);
+                player.KillPlayer(_lastActivatedPlayer, KillType.SpikeTrap);
                 return;
             }
         }

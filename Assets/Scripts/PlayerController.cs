@@ -68,10 +68,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 		}
 	}
 
-    public void KillPlayer(GameObject killer)
+    public void KillPlayer(Player killer, KillType type)
     {
         Debug.LogError("DIEDD");
-        
+        GameManager.Instance.HUD.BroadCastKillFeedMessage(killer, type, photonView.Controller);
         if(_role == PlayerRole.Human)
             Die();
     }
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         else if(Input.GetKeyDown(KeyCode.J))
             _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
         else if(Input.GetKeyDown(KeyCode.K))
-            KillPlayer(gameObject);
+            KillPlayer(null, KillType.Default);
         else if(Input.GetKeyDown(KeyCode.Tab))
             Cursor.visible = !Cursor.visible;
     }

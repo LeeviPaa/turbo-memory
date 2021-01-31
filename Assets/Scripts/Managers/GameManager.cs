@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 	public E_PlayerRoleChanged PlayerRoleChanged => _playerRoleChanged;
 	public UnityEvent<Player, int> PlayerScoreChanged => _playerScoreChanged;
 
+	[SerializeField]
+	private HUDMaster _hud;
+	public HUDMaster HUD => _hud;
+
     [SerializeField]
     private PlayerCameraFollower _playerCamera;
     [SerializeField]
