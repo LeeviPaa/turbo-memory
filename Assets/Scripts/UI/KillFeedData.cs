@@ -7,6 +7,8 @@ public enum KillType
 {
     Default = 0,
     SpikeTrap = 1,
+    Axe = 2,
+    Lava = 3,
     None = 100
 }
 
