@@ -139,6 +139,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        MouseRotate();
+        
+        if(_gameManager.GameEnded)
+            return;
+        
         if( photonView.IsMine == false && PhotonNetwork.IsConnected == true )
 	    {
 	        return;
@@ -153,7 +158,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         _characterController.Move(_moveVelocity * Time.deltaTime);
         
-        MouseRotate();
 
         if(Input.GetButtonDown("Jump") && !_jumping && _groundedGrace)
             StartCoroutine(Jump());
