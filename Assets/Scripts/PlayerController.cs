@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public E_PlayerRoleChanged RoleChanged => _roleChanged;
     public UnityEvent Jumped => _jumped;
     public PhotonView PhotonView => photonView;
-    public int Points => _points;
 
     [SerializeField]
     private float _speed = 10;
@@ -41,7 +40,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private float _groundedGraceTime = 0;
     private Vector3 _jumpVelocity;
     private Vector3 _moveVelocity;
-    private int _points;
     [SerializeField]
     private E_PlayerRoleChanged _roleChanged = new E_PlayerRoleChanged();
     private UnityEvent _jumped = new UnityEvent();
@@ -187,7 +185,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void AddPoints(int pointValue)
     {
-        _points += pointValue;
+        _gameManager.AddScore(pointValue);
     }
 
     private IEnumerator Jump()

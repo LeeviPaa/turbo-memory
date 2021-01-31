@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class PickupScript : MonoBehaviour
+public class PickupScript : MonoBehaviourPunCallbacks
 {
     public AnimationCurve _hoverCurve;
-    
+
     private float _yPosition;
     
     private int _pointValue = 100;
@@ -27,7 +28,7 @@ public class PickupScript : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             collider.gameObject.SendMessage("AddPoints", _pointValue, SendMessageOptions.DontRequireReceiver);
-            
+
             Destroy(gameObject);
         }
     }
