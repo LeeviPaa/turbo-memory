@@ -49,7 +49,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private float _deathDuration = 5f;
     private float _timeOfDeath;
 
-
     public void Start()
     {
         _gameManager = GameManager.Instance;
@@ -91,6 +90,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             _timeOfDeath = Time.time;
             _gameManager.HUD.SetDeathProperties(_timeOfDeath, _deathDuration);  
             _gameManager.BroadcastClientRoleChanged(PlayerRole.GoodGhost);
+            _gameManager.DeathPenaltyAndDropLoot(transform);
         }
         HandleDeath();
     }

@@ -14,6 +14,15 @@ public class PickupScript : MonoBehaviourPunCallbacks
     private int _pointValue = 100;
     private bool _canInteract = true;
 
+    public void Awake()
+    {
+        object[] data = photonView.InstantiationData;
+        if (data == null || data.Length > 0)
+        {
+            _pointValue = (int)data[0];
+        }
+    }
+
     void Start()
     {
         _yPosition = transform.position.y;
