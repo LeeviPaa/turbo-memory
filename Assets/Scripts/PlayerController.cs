@@ -71,9 +71,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void KillPlayer(Player killer, KillType type)
     {
         Debug.LogError("DIEDD");
-        GameManager.Instance.HUD.BroadCastKillFeedMessage(killer, type, photonView.Controller);
         if(_role == PlayerRole.Human)
+        {
+            GameManager.Instance.HUD.BroadCastKillFeedMessage(killer, type, photonView.Controller);
             Die();
+        }
     }
 
     private void Die()
