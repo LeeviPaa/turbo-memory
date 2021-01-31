@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 	public IReadOnlyDictionary<Player, int> PlayerScores => _playerScore;
 	public E_PlayerRoleChanged PlayerRoleChanged => _playerRoleChanged;
 	public UnityEvent<Player, int> PlayerScoreChanged => _playerScoreChanged;
+	public bool GameEnded => _currentGameTime >= _gameTimeSeconds;
+	public UnityEvent OnGameEnded => _onGameEnded;
+	public float GameTime => _currentGameTime;
+	public float GameTimeLeft => _gameTimeSeconds - _currentGameTime;
 
 	[SerializeField]
 	private HUDMaster _hud;
@@ -28,6 +32,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private PlayerController _playerPrefab;
     [SerializeField]
 	private Transform _spawnPoint;
+    [SerializeField]
+	private float _gameTimeSeconds = 180;
 
     private PlayerController _localPlayerInstance;
 	public PlayerController LocalPlayerInstance => _localPlayerInstance;
@@ -37,6 +43,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 	private Dictionary<Player, int> _playerScore = new Dictionary<Player, int>();
 	[SerializeField]
 	private UnityEvent<Player, int> _playerScoreChanged = new UnityEvent<Player, int>();
+	[SerializeField]
+	private UnityEvent _onGameEnded = new UnityEvent();
+	private float _currentGameTime = 0;
+	private bool _gameEnded = false;
 
 	public void LeaveRoom()
 	{
@@ -112,6 +122,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 	private void Start()
     {
         SpawnPlayer();
+		_gameEnded = false;
+		_currentGameTime = 0;
     }
 
     private void SpawnPlayer()
@@ -166,10 +178,28 @@ public class GameManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	private void Update()
 	{
+		if(!_gameEnded)
+		{
+			_currentGameTime += Time.deltaTime;
+			
+			if(_currentGameTime >= _gameTimeSeconds && photonView.Owner.IsMasterClient)
+			{
+				_gameEnded = true;
+				photonView.RPC("EndGame", RpcTarget.AllBuffered);
+			}
+		}
+
 		// "back" button of phone equals "Escape". quit app if that's pressed
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			QuitApplication();
 		}
+	}
+
+	[PunRPC]
+	private void EndGame()
+	{
+		_onGameEnded.Invoke();
+		_gameEnded = true;
 	}
 }
