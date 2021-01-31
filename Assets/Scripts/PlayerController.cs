@@ -103,7 +103,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void HandleDeath()
     {
-        _gameManager.HUD.Comms.ShowNotification("You died!");
+        if (photonView.Controller.IsLocal)
+        {
+            _gameManager.HUD.Comms.ShowNotification("You died!");
+        }
         foreach (var mb in transform.GetComponents<MonoBehaviour>())
         {
             if (mb is IDied died)
@@ -115,7 +118,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void HandleRespawn()
     {
-        _gameManager.HUD.Comms.ShowNotification("You have respawned.");
+        if (photonView.Controller.IsLocal)
+        {
+            _gameManager.HUD.Comms.ShowNotification("You have respawned.");
+        }
         foreach (var mb in transform.GetComponents<MonoBehaviour>())
         {
             if (mb is IDied died)
