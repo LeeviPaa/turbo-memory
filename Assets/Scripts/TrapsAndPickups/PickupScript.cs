@@ -23,6 +23,8 @@ public class PickupScript : MonoBehaviourPunCallbacks
                             (Time.time % _hoverCurve.length) + _yPosition, transform.position.z);
     }
 
+    
+    [PunRPC]
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Player"))
