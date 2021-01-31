@@ -11,6 +11,7 @@ public class PickupScript : MonoBehaviourPunCallbacks
     private float _yPosition;
     
     private int _pointValue = 100;
+    private bool _canInteract = true;
 
     void Start()
     {
@@ -23,15 +24,25 @@ public class PickupScript : MonoBehaviourPunCallbacks
                             (Time.time % _hoverCurve.length) + _yPosition, transform.position.z);
     }
 
-    
-    [PunRPC]
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.CompareTag("Player"))
+        if (!collider.gameObject.CompareTag("Player")) return;
+        var controller = collider.gameObject.GetComponent<PlayerController>();
+        if (controller.photonView.Controller.IsLocal && _canInteract)
         {
-            collider.gameObject.SendMessage("AddPoints", _pointValue, SendMessageOptions.DontRequireReceiver);
-
+            controller.AddPoints(_pointValue);
+            _canInteract = false;
             PhotonNetwork.Destroy(gameObject);
         }
+        else
+        {
+            _canInteract = false;
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        if (!collider.gameObject.CompareTag("Player")) return;
+        _canInteract = true;
     }
 }
