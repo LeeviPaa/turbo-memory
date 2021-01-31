@@ -63,7 +63,7 @@ public class HUDMaster : MonoBehaviourPunCallbacks
 
     public void BroadCastKillFeedMessage(Player user, KillType type, Player target)
     {
-        photonView.RPC("ShowKillFeedMessage", RpcTarget.All, user.ActorNumber, type, target.ActorNumber);
+        photonView.RPC("ShowKillFeedMessage", RpcTarget.All, user != null ? user.ActorNumber : -99999, type, target.ActorNumber);
     }
 
     [PunRPC]
