@@ -34,11 +34,6 @@ public class HUDMaster : MonoBehaviourPunCallbacks
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            var player = GetCurrentRoom().GetPlayer(1);
-            BroadCastKillFeedMessage(player, KillType.Default, player);
-        }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             ToggleScoreboardVisible();
@@ -90,6 +85,14 @@ public class HUDMaster : MonoBehaviourPunCallbacks
         if (playerTarget == null) return;
         _killFeed.ShowFeedMessage(new KillFeedData() { User = playerUser, Type = type, Target = playerTarget, Timestamp = Time.unscaledTime });
     }
+
+    #endregion
+
+    #region Messages
+
+    [SerializeField]
+    private NotificationComms _comms;
+    public NotificationComms Comms => _comms;
 
     #endregion
 

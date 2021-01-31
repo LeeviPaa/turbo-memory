@@ -26,10 +26,6 @@ namespace UI
 
         public void Update()
         {
-            if(Input.GetKeyDown(KeyCode.C))
-            {
-                ShowNotification("Haista paska");
-            }
             if (IsPlaying()) return;
             if (_stack.Count > 0)
             {

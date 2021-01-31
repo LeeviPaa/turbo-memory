@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void HandleDeath()
     {
+        _gameManager.HUD.Comms.ShowNotification("You died!");
         foreach (var mb in transform.GetComponents<MonoBehaviour>())
         {
             if (mb is IDied died)
@@ -114,6 +115,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void HandleRespawn()
     {
+        _gameManager.HUD.Comms.ShowNotification("You have respawned.");
         foreach (var mb in transform.GetComponents<MonoBehaviour>())
         {
             if (mb is IDied died)
@@ -161,13 +163,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if(Input.GetButtonDown("Jump") && !_jumping && _groundedGrace)
             StartCoroutine(Jump());
-
-        if(Input.GetKeyDown(KeyCode.H))
-            _gameManager.BroadcastClientRoleChanged(PlayerRole.Human);
-        else if(Input.GetKeyDown(KeyCode.G))
-            _gameManager.BroadcastClientRoleChanged(PlayerRole.GoodGhost);
-        else if(Input.GetKeyDown(KeyCode.J))
-            _gameManager.BroadcastClientRoleChanged(PlayerRole.EvilGhost);
         else if(Input.GetKeyDown(KeyCode.K))
             KillPlayer(null, KillType.Default);
         else if(Input.GetKeyDown(KeyCode.Tab))
