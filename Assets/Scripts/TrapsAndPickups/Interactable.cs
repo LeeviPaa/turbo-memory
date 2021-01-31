@@ -1,9 +1,11 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Interactable : MonoBehaviour
+public class Interactable : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject _interactionVisual;
@@ -12,9 +14,17 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private Camera _camera;
 
+    public UnityEvent<double, Player> OnInteracted = new UnityEvent<double, Player>();
+
+    public bool _isInInteractionRange = false;
+    [HideInInspector]
+    public bool CanInteract = true;
+
     public void Awake()
     {
+        CanInteract = true;
         _interactionVisual.SetActive(false);
+        _isInInteractionRange = false;
     }
 
     public void Update()
@@ -31,6 +41,10 @@ public class Interactable : MonoBehaviour
         {
             _interactionRoot.forward = _camera.transform.forward;
         }
+        if (_isInInteractionRange && CanInteract && Input.GetKeyDown(KeyCode.E))
+        {
+            Interact();
+        }
     }
 
     public bool GetPlayerControllerInCollision(Collider collision, out PlayerController controller)
@@ -43,17 +57,35 @@ public class Interactable : MonoBehaviour
     public void OnTriggerEnter(Collider collision)
     {
         if (!GetPlayerControllerInCollision(collision, out var controller)) return;
-        _interactionVisual.SetActive(controller.PhotonView.Owner.IsLocal);
+        if (controller.PhotonView.Owner.IsLocal)
+        {
+            _interactionVisual.SetActive(CanInteract);
+            _isInInteractionRange = true;
+        }
     }
 
     public void OnTriggerExit(Collider collision)
     {
         if (!GetPlayerControllerInCollision(collision, out var controller)) return;
-        _interactionVisual.SetActive(!controller.PhotonView.Owner.IsLocal);
+        if (controller.PhotonView.Owner.IsLocal)
+        {
+            _interactionVisual.SetActive(false);
+            _isInInteractionRange = false;
+        }
     }
 
     public void Interact()
     {
+        photonView.RPC("ExecuteInteraction", RpcTarget.All, PhotonNetwork.Time, PhotonNetwork.LocalPlayer.ActorNumber);
+    }
 
+    [PunRPC]
+    public void ExecuteInteraction(double timeStamp, int actorNumber)
+    {
+        if (!CanInteract) return;
+        var user = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
+        if (user == null) return;
+        OnInteracted.Invoke(timeStamp, user);
+        CanInteract = false;
     }
 }

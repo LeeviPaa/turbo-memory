@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 3117286346445655749}
   - component: {fileID: 6243424823330640476}
   - component: {fileID: 404989418408644202}
+  - component: {fileID: 6678262593964016423}
   m_Layer: 0
   m_Name: InWorldUIOverlay
   m_TagString: MainCamera
@@ -88,7 +89,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -146,6 +147,20 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &6678262593964016423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3966780278751076248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2c378ab906a2b8458b874c083f98006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cameraToSync: {fileID: 3117286346445655749}
+  _target: {fileID: 8481139037879425391}
 --- !u!1 &8422374025396217382
 GameObject:
   m_ObjectHideFlags: 0
