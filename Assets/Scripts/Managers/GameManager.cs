@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 		{
 			_currentGameTime += Time.deltaTime;
 			
-			if(_currentGameTime >= _gameTimeSeconds && photonView.Owner.IsMasterClient)
+			if(_currentGameTime >= _gameTimeSeconds && PhotonNetwork.LocalPlayer.IsMasterClient)
 			{
 				_gameEnded = true;
 				photonView.RPC("EndGame", RpcTarget.AllBuffered);
@@ -219,6 +219,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 	private void EndGame()
 	{
 		_onGameEnded.Invoke();
+		_hud.SetState(HUDMaster.HUDState.Victory);
+		Cursor.visible = true;
 		_gameEnded = true;
 	}
 }

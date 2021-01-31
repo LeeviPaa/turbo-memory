@@ -14,6 +14,7 @@ public class HUDMaster : MonoBehaviourPunCallbacks
     public UnityEvent<Room> OnRoomUpdated = new UnityEvent<Room>();
     public UnityEvent<Player> OnPlayerJoined = new UnityEvent<Player>();
     public UnityEvent<Player> OnPlayerDisconnected = new UnityEvent<Player>();
+    public UnityEvent<Room> OnEnterVictoryScreen = new UnityEvent<Room>();
 
     public void Start()
     {
@@ -109,6 +110,8 @@ public class HUDMaster : MonoBehaviourPunCallbacks
     private GameObject _baseHUD;
     [SerializeField]
     private GameObject _deathScreen;
+    [SerializeField]
+    private GameObject _victoryScreen;
 
     private float _timeOfDeath;
     private float _deathDuration;
@@ -123,15 +126,22 @@ public class HUDMaster : MonoBehaviourPunCallbacks
     public enum HUDState
     {
         Default = 0,
-        Death = 1
+        Death = 1,
+        Victory = 2
     }
+
     private HUDState _state;
 
     public void SetState(HUDState state)
     {
-        _baseHUD.GameObjectSetActive(state == HUDState.Default);
+        _baseHUD.GameObjectSetActive(state == HUDState.Default || state == HUDState.Death);
         _deathScreen.GameObjectSetActive(state == HUDState.Death);
+        _victoryScreen.GameObjectSetActive(state == HUDState.Victory);
         _state = state;
+        if (state == HUDState.Victory)
+        {
+            OnEnterVictoryScreen.Invoke(_currentRoom);
+        }
     }
 
     #endregion
