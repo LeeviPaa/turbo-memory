@@ -17,7 +17,7 @@ public class PickupScript : MonoBehaviourPunCallbacks
     public void Awake()
     {
         object[] data = photonView.InstantiationData;
-        if (data == null || data.Length > 0)
+        if (data != null || data.Length > 0)
         {
             _pointValue = (int)data[0];
         }
