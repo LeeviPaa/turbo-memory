@@ -103,8 +103,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swingingRoot: {fileID: 3284116339380901936}
-  _maxRotation: 60
-  _speed: 1
+  _maxRotation: 80
+  _speed: 2
 --- !u!1001 &3033525180743270363
 PrefabInstance:
   m_ObjectHideFlags: 0
