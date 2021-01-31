@@ -53,11 +53,15 @@ public class UserListItem : Element
 
     public void OnPlayerRoleChanged(Player player, PlayerRole role)
     {
+        var data = (PlayerData)_data;
+        if (player != data.Player) return;
         _role.text = role.ToString();
     }
 
     public void OnPlayerScoreChanged(Player player, int score)
     {
+        var data = (PlayerData)_data;
+        if (player != data.Player) return;
         _score.text = score.ToString();
     }
 }

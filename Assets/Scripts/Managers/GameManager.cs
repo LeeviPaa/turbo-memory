@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 			_playerScore[player] = score;
 		else
 			_playerScore.Add(player, score);
+		_playerScoreChanged.Invoke(player, score);
     }
 
 	/// <summary>
