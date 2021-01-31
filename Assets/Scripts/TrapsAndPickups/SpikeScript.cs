@@ -28,9 +28,9 @@ public class SpikeScript : MonoBehaviourPunCallbacks
         _spikeTrapAnimator = GetComponent<Animator>();
     }
 
-    void Activate(Player user)
+    void Activate(int actorNumber)
     {
-        photonView.RPC("ActivateSync", RpcTarget.All, user.ActorNumber);
+        photonView.RPC("ActivateSync", RpcTarget.All, actorNumber);
     }
 
     [PunRPC]

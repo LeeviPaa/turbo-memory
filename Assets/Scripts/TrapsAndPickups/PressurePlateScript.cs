@@ -32,9 +32,10 @@ public class PressurePlateScript : MonoBehaviour
             _activated = true;
             _pressurePlateAnimator.SetBool(_anmIsActive, true);
 
+            var userPlayer = _buttonPresser.GetComponent<PlayerController>().photonView.Owner;
             foreach (GameObject trap in TrapList)
             {
-                trap.gameObject.SendMessage("Activate", collider.gameObject, SendMessageOptions.DontRequireReceiver);
+                trap.gameObject.SendMessage("Activate", userPlayer.ActorNumber, SendMessageOptions.DontRequireReceiver);
             }
         }
     }
