@@ -96,8 +96,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 	public void AddScore(int delta)
     {
-	    Debug.LogWarning($"Player got {delta} points!");
-		var currentScore = GetPlayerScore(PhotonNetwork.LocalPlayer);
+	    var currentScore = GetPlayerScore(PhotonNetwork.LocalPlayer);
 		//Players should not get negative score!
 		currentScore = Mathf.Max(currentScore + delta, 0);
 		BroadcastPlayerScoreChanged(currentScore);

@@ -29,7 +29,7 @@ public class PickupScript : MonoBehaviourPunCallbacks
         {
             collider.gameObject.SendMessage("AddPoints", _pointValue, SendMessageOptions.DontRequireReceiver);
 
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }
