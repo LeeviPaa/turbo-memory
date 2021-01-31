@@ -2478,7 +2478,7 @@ MonoBehaviour:
   _playerPrefab: {fileID: -2303788687124680194, guid: c261e9bac240fc44e9a5ec7a4be484c2, type: 3}
   _pickupPrefab: {fileID: 393827077252134958, guid: 0337010db963dde4a8a534df036df31d, type: 3}
   _spawnPoint: {fileID: 2005153438}
-  _gameTimeSeconds: 5
+  _gameTimeSeconds: 180
   _playerRoleChanged:
     m_PersistentCalls:
       m_Calls:

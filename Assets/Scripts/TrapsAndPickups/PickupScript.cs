@@ -42,12 +42,18 @@ public class PickupScript : MonoBehaviourPunCallbacks
         {
             controller.AddPoints(_pointValue);
             _canInteract = false;
-            PhotonNetwork.Destroy(gameObject);
+            photonView.RPC("DestroySelf", RpcTarget.All);
         }
         else
         {
             _canInteract = false;
         }
+    }
+
+    [PunRPC]
+    public void DestroySelf()
+    {
+        PhotonNetwork.Destroy(gameObject);
     }
 
     private void OnTriggerExit(Collider collider)
