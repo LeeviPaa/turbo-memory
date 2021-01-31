@@ -10,15 +10,13 @@ public class PickupSpawnerScript : MonoBehaviourPunCallbacks
     private bool _treasureCollected;
     private bool _canSpawnNew;
 
-    private float _timeBetweenSpawns = 10f;
+    private float _secBetweenSpawns = 10f;
     private float _nextSpawnTime;
-
     private BoxCollider _treasureCheck;
-    
-    // Start is called before the first frame update
+
     void Start()
     {
-        _nextSpawnTime = Time.time + _timeBetweenSpawns;
+        _nextSpawnTime = Time.time + _secBetweenSpawns;
         _treasureCollected = false;
         
         Spawn();
@@ -26,21 +24,20 @@ public class PickupSpawnerScript : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!_treasureCollected)
+        if (Time.time > _nextSpawnTime)
         {
-            if (Time.time > _nextSpawnTime)
-            {
-                Spawn();
+            _treasureCollected = false;
             
-                _nextSpawnTime = Time.time + _timeBetweenSpawns;
-            }
+            Spawn();
+            
+            _nextSpawnTime = Time.time + _secBetweenSpawns;
         }
     }
     
     [PunRPC]
     void Spawn()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && !_treasureCollected)
         {
             GameObject treasure = PhotonNetwork.InstantiateSceneObject("Treasure", transform.position, Quaternion.identity);
             _treasureCollected = true;

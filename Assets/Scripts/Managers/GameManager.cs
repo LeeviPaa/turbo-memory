@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     private PlayerCameraFollower _playerCamera;
     [SerializeField]
     private PlayerController _playerPrefab;
+	[SerializeField]
+	private PickupScript _pickupPrefab;
+
     [SerializeField]
 	private Transform _spawnPoint;
 
@@ -101,6 +104,21 @@ public class GameManager : MonoBehaviourPunCallbacks
 		currentScore = Mathf.Max(currentScore + delta, 0);
 		BroadcastPlayerScoreChanged(currentScore);
     }
+
+	public void DeathPenaltyAndDropLoot(Transform position)
+    {
+		var currentScore = GetPlayerScore(PhotonNetwork.LocalPlayer);
+		var points = Mathf.RoundToInt(currentScore * 0.5f);
+		if (points <= 0) return;
+		AddScore(-points);
+		StartCoroutine(_lootSpawnDelay(position, points));
+	}
+
+	private IEnumerator _lootSpawnDelay(Transform position, int points)
+    {
+		yield return new WaitForSeconds(0.5f);
+		PhotonNetwork.Instantiate(_pickupPrefab.name, position.position, position.rotation, 0, new object[1] { points });
+	}
 
 	public void BroadcastPlayerScoreChanged(int score)
     {
