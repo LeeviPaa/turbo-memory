@@ -2409,6 +2409,7 @@ MonoBehaviour:
   _hud: {fileID: 1924534053}
   _playerCamera: {fileID: 847093548}
   _playerPrefab: {fileID: -2303788687124680194, guid: c261e9bac240fc44e9a5ec7a4be484c2, type: 3}
+  _pickupPrefab: {fileID: 393827077252134958, guid: 0337010db963dde4a8a534df036df31d, type: 3}
   _spawnPoint: {fileID: 2005153438}
   _playerRoleChanged:
     m_PersistentCalls:
