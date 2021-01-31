@@ -30,6 +30,6 @@ public class OnDeadSFX : MonoBehaviourPunCallbacks, IDied
 
     public void OnRespawn()
     {
-
+        _dead = false;
     }
 }

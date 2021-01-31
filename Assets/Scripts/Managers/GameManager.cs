@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 	public UnityEvent OnGameEnded => _onGameEnded;
 	public float GameTime => _currentGameTime;
 	public float GameTimeLeft => _gameTimeSeconds - _currentGameTime;
+	public Transform SpawnPoint => _spawnPoint;
 
 	[SerializeField]
 	private HUDMaster _hud;
