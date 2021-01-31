@@ -430,6 +430,10 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: 78787795a7599ec48878a6b54b30d079, type: 3}
   - Type: 1
     Icon: {fileID: 21300000, guid: e80b866e24be5624b8a91d1b77c0f4b8, type: 3}
+  - Type: 2
+    Icon: {fileID: 21300000, guid: 9d2bc9a9d781aea4b9dc97c58d4a591c, type: 3}
+  - Type: 3
+    Icon: {fileID: 21300000, guid: f8e79fe59d44b6349b2f05ea06a144b1, type: 3}
   _user: {fileID: 3311758996959140456}
   _target: {fileID: 4675117203616239383}
   _icon: {fileID: 3793979372169430910}
