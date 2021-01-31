@@ -39,7 +39,7 @@ public class PickupSpawnerScript : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient && !_treasureCollected)
         {
-            GameObject treasure = PhotonNetwork.InstantiateSceneObject("Treasure", transform.position, Quaternion.identity);
+            GameObject treasure = PhotonNetwork.InstantiateRoomObject("Treasure", transform.position, Quaternion.identity);
             _treasureCollected = true;
             _canSpawnNew = true;
         }
