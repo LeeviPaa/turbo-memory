@@ -3592,6 +3592,8 @@ MonoBehaviour:
   _roleVisuals:
   - Visuals:
     - {fileID: 100052}
+    - {fileID: 1602564466}
+    - {fileID: 1013068953}
     Role: Human
   - Visuals:
     - {fileID: 8806799908489351926}
