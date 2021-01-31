@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4864306464470624585}
   - component: {fileID: 754505209907286256}
+  - component: {fileID: 8891108}
   m_Layer: 0
   m_Name: TreasureSpawner
   m_TagString: Untagged
@@ -43,3 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4d6821b941bae4a9408acdf614e818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &8891108
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5131875880176374822}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6105492, y: 1.8155037, z: 0.6297302}
+  m_Center: {x: 0.027715802, y: 0.8870315, z: 0.021591187}

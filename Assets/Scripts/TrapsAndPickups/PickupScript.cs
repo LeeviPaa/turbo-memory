@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ public class PickupScript : MonoBehaviourPunCallbacks
     {
         if (!collider.gameObject.CompareTag("Player")) return;
         var controller = collider.gameObject.GetComponent<PlayerController>();
-        if (controller.photonView.Controller.IsLocal && _canInteract)
+        if (controller.photonView.Controller.IsLocal && _canInteract && controller.Role == PlayerRole.Human)
         {
             controller.AddPoints(_pointValue);
             _canInteract = false;

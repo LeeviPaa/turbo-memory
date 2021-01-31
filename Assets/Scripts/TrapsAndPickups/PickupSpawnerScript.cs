@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -7,11 +8,12 @@ using UnityEngine;
 public class PickupSpawnerScript : MonoBehaviourPunCallbacks
 {
     private bool _treasureCollected;
+    private bool _canSpawnNew;
 
     private float _timeBetweenSpawns = 10f;
     private float _nextSpawnTime;
-    
-    
+
+    private BoxCollider _treasureCheck;
     
     // Start is called before the first frame update
     void Start()
@@ -40,8 +42,30 @@ public class PickupSpawnerScript : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            GameObject treasure = PhotonNetwork.Instantiate("Treasure", transform.position, Quaternion.identity);
+            GameObject treasure = PhotonNetwork.InstantiateSceneObject("Treasure", transform.position, Quaternion.identity);
             _treasureCollected = true;
+            _canSpawnNew = true;
+        }
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Treasure"))
+        {
+            Debug.LogWarning("Spawned new treasure");
+        }
+    }
+
+
+    void OnTriggerExit(Collider collider)
+    {
+        var controller = collider.gameObject.GetComponent<PlayerController>();
+        
+        if (collider.gameObject.CompareTag("Player") && controller.Role == PlayerRole.Human && _canSpawnNew)
+        {
+            Debug.LogWarning("Ready to spawn a new treasure");
+            _canSpawnNew = false;
+            _treasureCollected = false;
         }
     }
 }
